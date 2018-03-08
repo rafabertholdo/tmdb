@@ -184,6 +184,15 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		DA3C04EE20515BBC008A332B /* Queue */ = {
+			isa = PBXGroup;
+			children = (
+				DA1B2995205075BA00988EBF /* BaseOperationQueue.swift */,
+				DA1B29972050769800988EBF /* TMDBOperationQueue.swift */,
+			);
+			path = Queue;
+			sourceTree = "<group>";
+		};
 		DAB71BBB20500AA000BB2BC3 = {
 			isa = PBXGroup;
 			children = (
@@ -269,6 +278,7 @@
 		DAB71C0020501FE300BB2BC3 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				DA3C04EE20515BBC008A332B /* Queue */,
 				DA1B298E20506F1200988EBF /* Extension */,
 				DA1B29872050598400988EBF /* Error */,
 				DAB71C0620504DC200BB2BC3 /* Provider */,
@@ -293,8 +303,6 @@
 				DA1B298320504FAC00988EBF /* AlamofireNetworkProvider.swift */,
 				DA1B29852050508600988EBF /* NetworkProviderProtocol.swift */,
 				DA1B298C2050651A00988EBF /* TMDBProvider.swift */,
-				DA1B2995205075BA00988EBF /* BaseOperationQueue.swift */,
-				DA1B29972050769800988EBF /* TMDBOperationQueue.swift */,
 			);
 			path = Provider;
 			sourceTree = "<group>";
