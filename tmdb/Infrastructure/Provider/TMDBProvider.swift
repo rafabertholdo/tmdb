@@ -63,7 +63,7 @@ class TMDBProvider {
     ///   - parameters: url path
     ///   - parameters: request parameters
     ///   - completion: Closure executed at the end of the request
-    func request(withUrl url:String, andParameters parameters: [String: Any], completion: @escaping MovieListCallback) {
+    func request(withUrl url: String, andParameters parameters: [String: Any], completion: @escaping MovieListCallback) {
         backendClient.request(url, method: .get, parameters: parameters.merged(with: Constants.apiSecret)) { (callback) in
             do {
                 guard let result = try callback() else {

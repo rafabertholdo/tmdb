@@ -17,7 +17,7 @@ class MovieCollectionViewCell: UICollectionViewCell, Identifiable {
     /// Updates visual components with the view model data
     ///
     /// - Parameter model: view model
-    func setViewModel(_ model: MovieViewModel) {
+    func setViewModel(_ model: MovieCollectionItemViewModel) {
         title.attributedText = model.title
         if let url = URL(string: model.coverUrl) {
             cover.af_setImage(withURL: url)

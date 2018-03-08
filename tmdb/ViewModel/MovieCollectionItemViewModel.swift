@@ -1,5 +1,5 @@
 //
-//  MovieViewModel.swift
+//  MovieCollectionItemViewModel.swift
 //  imdb
 //
 //  Created by Rafael Guilherme Bertholdo on 07/03/18.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct MovieViewModel {
+struct MovieCollectionItemViewModel {
     
     var title: NSAttributedString
     var coverUrl: String

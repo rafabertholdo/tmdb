@@ -65,7 +65,6 @@
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
-                                    <outlet property="dataSource" destination="8bC-Xf-vdC" id="exR-rs-kW5"/>
                                     <outlet property="delegate" destination="8bC-Xf-vdC" id="K3P-Yi-exO"/>
                                 </connections>
                             </collectionView>

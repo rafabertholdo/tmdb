@@ -8,6 +8,8 @@ target 'tmdb' do
   # Pods for imdb
   pod 'SwiftLint'
   pod 'AlamofireImage'
+  pod 'RxSwift'
+  pod 'RxCocoa'
   
   target 'tmdbTests' do
     inherit! :search_paths

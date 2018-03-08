@@ -16,13 +16,15 @@ class MovieListViewController: UIViewController, ViewCustomizable {
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     let queue = TMDBOperationQueue()
-    var movies: [Movie]?    
     var page = 0
     var requestFunction: MovieListRequestFunction?
+    var viewModel = MovieListViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.mainView.movieDelegate = self
+        viewModel.delegate = self
+        viewModel.bindTo(mainView)
+        self.mainView.delegate = self
         self.requestFunction = queue.popularMovies
     }
    
@@ -33,9 +35,8 @@ class MovieListViewController: UIViewController, ViewCustomizable {
     
     func refreshWithIndicator() {
         mainView.setLoadingScreen(navigationController: navigationController)
-        self.refresh { [weak self] () in
-            guard let weakSelf = self else { return }
-            weakSelf.mainView.removeLoadingScreen()
+        self.refresh { [weak self] () in            
+            self?.mainView.removeLoadingScreen()
         }
     }
 
@@ -48,13 +49,13 @@ class MovieListViewController: UIViewController, ViewCustomizable {
                     throw ApiError.emptyResponse
                 }
                 
-                let moviesViewModel = try result.map { (movie) -> MovieViewModel! in
-                    guard let viewModel = MovieViewModel(movie) else {
-                        throw BusinessError.couldCreateViewModel
+                let moviesViewModel = result.map { (movie) -> MovieCollectionItemViewModel? in
+                    guard let viewModel = MovieCollectionItemViewModel(movie) else {
+                        return nil
                     }
                     return viewModel
-                }
-                weakSelf.mainView.movies += moviesViewModel
+                    }.flatMap { $0 }
+                weakSelf.viewModel.movies.value += moviesViewModel
                 nextPageCompletion()
             } catch {
                 
@@ -84,7 +85,7 @@ class MovieListViewController: UIViewController, ViewCustomizable {
 extension MovieListViewController: MovieListViewDelegate {
     
     func refresh(completion: @escaping () -> Void) {
-        mainView.movies = []
+        viewModel.movies.value = []
         page = 0
         loadNextPage {
             completion()
