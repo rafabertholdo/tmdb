@@ -9,6 +9,7 @@
 import UIKit
 
 typealias NextPageCompletion = () -> Void
+typealias MovieListRequestFunction = ([String: Any], @escaping MovieListCallback) -> Void
 
 class MovieListViewController: UIViewController, ViewCustomizable {
     typealias MainView = MovieListView
@@ -17,27 +18,30 @@ class MovieListViewController: UIViewController, ViewCustomizable {
     let queue = TMDBOperationQueue()
     var movies: [Movie]?    
     var page = 0
+    var requestFunction: MovieListRequestFunction?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.mainView.movieDelegate = self
+        self.requestFunction = queue.popularMovies
     }
-    
-    /// Requests the most popular movies
-    ///
-    /// - Parameter animated: view will appear animated
+   
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        refreshWithIndicator()
+    }
+    
+    func refreshWithIndicator() {
         mainView.setLoadingScreen(navigationController: navigationController)
         self.refresh { [weak self] () in
             guard let weakSelf = self else { return }
             weakSelf.mainView.removeLoadingScreen()
         }
     }
-    
-    func loadNextPage(nextPageCompletion: @escaping NextPageCompletion) {
+
+    func loadNextPage(requestFunction: MovieListRequestFunction, nextPageCompletion: @escaping NextPageCompletion) {
         page+=1
-        queue.popularMovies(with: ["page": page]) { [weak self] (completion) in
+        requestFunction( ["page": page]) { [weak self] (completion) in
             do {
                 guard let weakSelf = self else { return }
                 guard let result = try completion() else {
@@ -50,14 +54,17 @@ class MovieListViewController: UIViewController, ViewCustomizable {
                     }
                     return viewModel
                 }
-                //let deadlineTime = DispatchTime.now() + .seconds(3)
-                //DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
-                    weakSelf.mainView.movies += moviesViewModel
-                    nextPageCompletion()
-                //}
+                weakSelf.mainView.movies += moviesViewModel
+                nextPageCompletion()
             } catch {
                 
             }
+        }
+    }
+    
+    func loadNextPage(nextPageCompletion: @escaping NextPageCompletion) {
+        if let requestFunction = self.requestFunction {
+            self.loadNextPage(requestFunction: requestFunction, nextPageCompletion: nextPageCompletion)
         }
     }
     
@@ -65,9 +72,12 @@ class MovieListViewController: UIViewController, ViewCustomizable {
         switch sender.selectedSegmentIndex {
         case 0:
             navigationItem.title = "Popular Movies"
+            self.requestFunction = queue.popularMovies
         default:
             navigationItem.title = "Upcoming Movies"
+            self.requestFunction = queue.upcomingMovies
         }
+        refreshWithIndicator()
     }
 }
 
@@ -83,10 +93,7 @@ extension MovieListViewController: MovieListViewDelegate {
     
     func requestNextPage(completion: @escaping () -> Void) {
         loadNextPage {
-            //let deadlineTime = DispatchTime.now() + .seconds(3)
-            //DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
-                completion()
-            //}
+            completion()
         }
     }
 }

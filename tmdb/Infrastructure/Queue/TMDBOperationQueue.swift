@@ -23,4 +23,18 @@ class TMDBOperationQueue: BaseOperationQueue {
             })
         }
     }
+    
+    /// Removes the execution from the main queue and call
+    /// the TMDB provider to get the list of the upcoming movies
+    ///
+    /// - Parameter completion: Closure executed on the main queue at the end of the request
+    func upcomingMovies(with parameters: [String: Any], completion: @escaping MovieListCallback) {
+        addOperation {
+            TMDBProvider.instance.upcomingMovies(with: parameters, completion: { (callback) in
+                OperationQueue.main.addOperation {
+                    completion(callback)
+                }
+            })
+        }
+    }
 }

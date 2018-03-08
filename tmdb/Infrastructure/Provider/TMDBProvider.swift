@@ -45,8 +45,26 @@ class TMDBProvider {
     ///   - parameters: request parameters
     ///   - completion: Closure executed at the end of the request
     func popularMovies(with parameters: [String: Any], completion: @escaping MovieListCallback ) {
-        
-        backendClient.request(Constants.popularEndpoint, method: .get, parameters: parameters.merged(with: Constants.apiSecret)) { (callback) in
+        request(withUrl: Constants.popularEndpoint, andParameters: parameters, completion: completion)
+    }
+    
+    /// Searches the most popular movies at TMDB
+    ///
+    /// - Parameters:
+    ///   - parameters: request parameters
+    ///   - completion: Closure executed at the end of the request
+    func upcomingMovies(with parameters: [String: Any], completion: @escaping MovieListCallback ) {
+        request(withUrl: Constants.upcomingEndpoint, andParameters: parameters, completion: completion)
+    }
+    
+    /// Makes a request to backend at particular URL
+    ///
+    /// - Parameters:
+    ///   - parameters: url path
+    ///   - parameters: request parameters
+    ///   - completion: Closure executed at the end of the request
+    func request(withUrl url:String, andParameters parameters: [String: Any], completion: @escaping MovieListCallback) {
+        backendClient.request(url, method: .get, parameters: parameters.merged(with: Constants.apiSecret)) { (callback) in
             do {
                 guard let result = try callback() else {
                     throw ApiError.emptyResponse
