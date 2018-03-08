@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 typealias NextPageCompletion = () -> Void
-typealias MovieListRequestFunction = ([String: Any], @escaping MovieListCallback) -> Void
 
 class MovieListViewController: UIViewController, ViewCustomizable {
     typealias MainView = MovieListView
@@ -17,15 +18,16 @@ class MovieListViewController: UIViewController, ViewCustomizable {
     
     let queue = TMDBOperationQueue()
     var page = 0
-    var requestFunction: MovieListRequestFunction?
     var viewModel = MovieListViewModel()
+    var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.delegate = self
         viewModel.bindTo(mainView)
+        viewModel.segmentedControlIndex.asObservable().bind(to: segmentedControl.rx.selectedSegmentIndex).disposed(by: disposeBag)
+        segmentedControl.rx.selectedSegmentIndex.bind(to: viewModel.segmentedControlIndex).disposed(by: disposeBag)
         self.mainView.delegate = self
-        self.requestFunction = queue.popularMovies
     }
    
     override func viewDidAppear(_ animated: Bool) {
@@ -64,21 +66,9 @@ class MovieListViewController: UIViewController, ViewCustomizable {
     }
     
     func loadNextPage(nextPageCompletion: @escaping NextPageCompletion) {
-        if let requestFunction = self.requestFunction {
+        if let requestFunction = viewModel.requestFunction.value {
             self.loadNextPage(requestFunction: requestFunction, nextPageCompletion: nextPageCompletion)
         }
-    }
-    
-    @IBAction func segmentChanged(_ sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 0:
-            navigationItem.title = "Popular Movies"
-            self.requestFunction = queue.popularMovies
-        default:
-            navigationItem.title = "Upcoming Movies"
-            self.requestFunction = queue.upcomingMovies
-        }
-        refreshWithIndicator()
     }
 }
 
