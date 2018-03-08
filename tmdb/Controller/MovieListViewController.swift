@@ -23,25 +23,21 @@ class MovieListViewController: UIViewController, ViewCustomizable {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.delegate = self
-        viewModel.bindTo(mainView)
+        viewModel.bind(to: mainView)
         viewModel.segmentedControlIndex.asObservable().bind(to: segmentedControl.rx.selectedSegmentIndex).disposed(by: disposeBag)
         segmentedControl.rx.selectedSegmentIndex.bind(to: viewModel.segmentedControlIndex).disposed(by: disposeBag)
         viewModel.navigationTitle.asObservable().bind(to: navigationItem.rx.title).disposed(by: disposeBag)
-        self.mainView.delegate = self
     }
    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        refreshWithIndicator()
-    }
-    
-    func refreshWithIndicator() {
+        
         viewModel.isLoading.value = true
-        self.refresh { [weak self] () in            
+        self.refresh { [weak self] () in
             self?.viewModel.isLoading.value = false
         }
     }
-
+    
     func loadNextPage(requestFunction: MovieListRequestFunction, nextPageCompletion: @escaping NextPageCompletion) {
         page+=1
         requestFunction( ["page": page]) { [weak self] (completion) in

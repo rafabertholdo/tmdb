@@ -60,12 +60,23 @@ class MovieListViewModel: NSObject, ViewModelProtocol {
         }
     }
     
-    func bindTo(_ view: MainView) {
+    func bind(to view: MainView) {
         self.mainView = view
         view.collectionView.delegate = self
+        view.refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         movies.asObservable().bind(to: view.collectionView.rx.items(cellIdentifier: MovieCollectionViewCell.identifier, cellType: MovieCollectionViewCell.self)) { _, item, cell in
             cell.setViewModel(item)
         }.disposed(by: disposeBag)
+    }
+    
+    @objc func refresh() {
+        if let delegate = self.delegate {
+            delegate.refresh { [weak self] () in
+                self?.mainView?.refreshControl.endRefreshing()
+            }
+        } else {
+            self.mainView?.refreshControl.endRefreshing()
+        }
     }
 }
 

@@ -9,5 +9,5 @@
 import UIKit
 
 protocol ViewModelProtocol: ViewCustomizable {
-    func bindTo(_ view: MainView)
+    func bind(to view: MainView)
 }
