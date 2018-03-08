@@ -27,8 +27,9 @@ class MovieListViewModel: NSObject, ViewModelProtocol {
     private var page = 0
     public var requestFunction: Variable<MovieListRequestFunction?> = Variable(nil)
 
-    override init () {
+    override init() {
         super.init()
+        
         self.requestFunction.value = queue.popularMovies
         segmentedControlIndex.asObservable().subscribe(onNext: { [weak self] (index) in
                 switch index {
