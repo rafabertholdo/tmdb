@@ -39,10 +39,16 @@ class TMDBProvider {
         self.backendClient = backendClient
     }
     
+    /// Adds the API key to the request parameters
+    ///
+    /// - Parameter value: Reference to the parameter dictionary
     func addApiSecretParameter(_ value: inout [String: Any]) {
         value["api_key"] = Constants.apiSecret
     }
     
+    /// Searches the most popular movies at TMDB
+    ///
+    /// - Parameter completion: Closure executed at the end of the request
     func popularMovies(completion: @escaping MovieListCallback ) {
         var parameters: [String: Any] = [:]
         addApiSecretParameter(&parameters)

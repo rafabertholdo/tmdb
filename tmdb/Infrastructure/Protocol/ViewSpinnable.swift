@@ -21,7 +21,16 @@ protocol ViewSpinnableDelegate: class {
 
 extension ViewSpinnable where Self: UIView {
     
-    internal func setLoadingScreen(view: UIView, navigationController: UINavigationController?) {
+    internal func setLoadingScreen(navigationController: UINavigationController? = nil) {
+        setLoadingScreen(view: self, navigationController: navigationController)
+    }    
+    
+    /// Insert an activity indicator to the center of the passed View
+    ///
+    /// - Parameters:
+    ///   - view: View to add the activity indicator
+    ///   - navigationController: Navigation controller to subtract the it's height
+    internal func setLoadingScreen(view: UIView, navigationController: UINavigationController? = nil) {
         if let spinnableSelf = self as? ViewSpinnableDelegate {
             spinnableSelf.willSetLoadingScreen()
         }
@@ -49,6 +58,7 @@ extension ViewSpinnable where Self: UIView {
         loadingLabel.isHidden = false
     }
     
+    /// Remove the loading screen from the view
     internal func removeLoadingScreen() {
         spinner.stopAnimating()
         spinner.isHidden = true

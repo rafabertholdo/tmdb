@@ -7,6 +7,10 @@
 //
 
 import Foundation
+
+/// Technical errors
+///
+/// - invalidDataConvertionToDictionary: Could not convert Data to NSDictionary 
 enum TecnicalError: Error {
     case invalidDataConvertionToDictionary
 }

@@ -10,19 +10,13 @@ import Foundation
 
 class BaseOperationQueue: OperationQueue {
     
-    /**
-     Initialize an BaseOperationQueue subclass.
-     
-     - parameter maxConcurrentOperationCount: maximun number of concurrent operations.
-     
-     - returns: an instance of BaseOperationQueue subclass.
-     */
+    /// Initialize an BaseOperationQueue subclass.
+    ///
+    /// - Parameter maxConcurrentOperationCount: maximun number of concurrent operations.
     convenience init(maxConcurrentOperationCount: Int) {
         self.init()
         self.maxConcurrentOperationCount = maxConcurrentOperationCount
     }
-    
-    // MARK: Deinitalizers
     
     deinit {
         cancelAllOperations()

@@ -7,6 +7,10 @@
 //
 
 import Foundation
+
+/// Business Errors
+///
+/// - couldNotParseProperty: Could not parse object starting from property
 enum BusinessError: Error {
     case couldNotParseProperty(String)
 }

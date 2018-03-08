@@ -9,7 +9,11 @@
 import Foundation
 
 class TMDBOperationQueue: BaseOperationQueue {
-
+    
+    /// Removes the execution from the main queue and call
+    /// the TMDB provider to get the list of the popular movies
+    ///
+    /// - Parameter completion: Closure executed on the main queue at the end of the request
     func popularMovies(_ completion: @escaping MovieListCallback) {
         addOperation {
             TMDBProvider.instance.popularMovies { (callback) in

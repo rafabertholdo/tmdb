@@ -12,11 +12,14 @@ class MovieListViewController: UIViewController, ViewCustomizable {
     typealias MainView = MovieListView
     
     let queue = TMDBOperationQueue()
-    var movies: [Movie]?
+    var movies: [Movie]?    
     
+    /// Requests the most popular movies
+    ///
+    /// - Parameter animated: view will appear animated
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        mainView.setLoadingScreen(view: mainView, navigationController: navigationController)
+        mainView.setLoadingScreen(navigationController: navigationController)
         queue.popularMovies { [weak self] (completion) in
             do {
                 guard let weakSelf = self else { return }
@@ -26,9 +29,7 @@ class MovieListViewController: UIViewController, ViewCustomizable {
                 
                 let moviesViewModel = result.map { (movie) -> MovieViewModel? in
                     return MovieViewModel(movie)
-                    }.filter({ (viewModel) -> Bool in
-                        return viewModel != nil
-                    })                
+                    }
                 weakSelf.mainView.movies = moviesViewModel
                 weakSelf.mainView.removeLoadingScreen()
             } catch {

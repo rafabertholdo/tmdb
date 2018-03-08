@@ -9,6 +9,11 @@
 import Foundation
 
 extension Data {
+    
+    /// Converts Data to NSDictionary
+    ///
+    /// - Returns: JSON
+    /// - Throws: TecnicalError.invalidDataConvertionToDictionary
     func toDictionary() throws -> NSDictionary {
         guard let searchDictionary = try JSONSerialization.jsonObject(with: self, options: .mutableLeaves) as? NSDictionary else {
             throw TecnicalError.invalidDataConvertionToDictionary
