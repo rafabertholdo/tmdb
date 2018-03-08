@@ -16,17 +16,17 @@ class MovieListViewModel: NSObject, ViewModelProtocol {
     typealias MainView = MovieListView
     
     var mainView: MainView?
+    weak var delegate: MovieListViewDelegate?
+    
     var movies: Variable<[MovieCollectionItemViewModel]> = Variable([])
     var segmentedControlIndex: Variable<Int> = Variable(0)
     var navigationTitle: Variable<String> = Variable("Popular Movies")
-    weak var delegate: MovieListViewDelegate?
     var isLoading: Variable<Bool> = Variable(false)
+    var requestFunction: Variable<MovieListRequestFunction?> = Variable(nil)
     
     private var disposeBag = DisposeBag()
     private let queue = TMDBOperationQueue()
-    private var page = 0
-    public var requestFunction: Variable<MovieListRequestFunction?> = Variable(nil)
-
+    
     override init() {
         super.init()
         
