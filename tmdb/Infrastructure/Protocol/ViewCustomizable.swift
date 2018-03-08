@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ViewCustomizable: class {
+protocol ViewCustomizable {
     associatedtype MainView
 }
 

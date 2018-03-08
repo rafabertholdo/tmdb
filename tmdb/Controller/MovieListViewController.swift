@@ -12,6 +12,7 @@ typealias NextPageCompletion = () -> Void
 
 class MovieListViewController: UIViewController, ViewCustomizable {
     typealias MainView = MovieListView
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     let queue = TMDBOperationQueue()
     var movies: [Movie]?    
@@ -27,7 +28,11 @@ class MovieListViewController: UIViewController, ViewCustomizable {
     /// - Parameter animated: view will appear animated
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.refresh { }
+        mainView.setLoadingScreen(navigationController: navigationController)
+        self.refresh { [weak self] () in
+            guard let weakSelf = self else { return }
+            weakSelf.mainView.removeLoadingScreen()
+        }
     }
     
     func loadNextPage(nextPageCompletion: @escaping NextPageCompletion) {
@@ -45,11 +50,23 @@ class MovieListViewController: UIViewController, ViewCustomizable {
                     }
                     return viewModel
                 }
-                weakSelf.mainView.movies += moviesViewModel
-                nextPageCompletion()
+                //let deadlineTime = DispatchTime.now() + .seconds(3)
+                //DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
+                    weakSelf.mainView.movies += moviesViewModel
+                    nextPageCompletion()
+                //}
             } catch {
                 
             }
+        }
+    }
+    
+    @IBAction func segmentChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            navigationItem.title = "Popular Movies"
+        default:
+            navigationItem.title = "Upcoming Movies"
         }
     }
 }
@@ -57,20 +74,19 @@ class MovieListViewController: UIViewController, ViewCustomizable {
 extension MovieListViewController: MovieListViewDelegate {
     
     func refresh(completion: @escaping () -> Void) {
-        mainView.setLoadingScreen(navigationController: navigationController)
         mainView.movies = []
         page = 0
-        loadNextPage { [weak self] () in
-            guard let weakSelf = self else { return }
-            sleep(3)
-            weakSelf.mainView.removeLoadingScreen()
+        loadNextPage {
             completion()
         }
     }
     
     func requestNextPage(completion: @escaping () -> Void) {
         loadNextPage {
-            completion()
+            //let deadlineTime = DispatchTime.now() + .seconds(3)
+            //DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
+                completion()
+            //}
         }
     }
 }

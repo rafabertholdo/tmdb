@@ -29,6 +29,7 @@ class MovieListView: UIView, ViewSpinnable {
         refreshControl = UIRefreshControl()
         let attributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh", attributes: attributes)
+        refreshControl.tintColor = UIColor.white
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         collectionView.addSubview(refreshControl)
          collectionView.delegate = self

@@ -91,8 +91,14 @@
                                 <segment title="Upcoming"/>
                             </segments>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="segmentChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="Dvz-b5-QuL"/>
+                            </connections>
                         </segmentedControl>
                     </navigationItem>
+                    <connections>
+                        <outlet property="segmentedControl" destination="yQd-PK-Rp2" id="F6m-SQ-8BR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
