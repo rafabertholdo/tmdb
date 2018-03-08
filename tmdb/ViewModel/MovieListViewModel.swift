@@ -15,10 +15,12 @@ typealias MovieListRequestFunction = ([String: Any], @escaping MovieListCallback
 class MovieListViewModel: NSObject, ViewModelProtocol {
     typealias MainView = MovieListView
     
+    var mainView: MainView?
     var movies: Variable<[MovieCollectionItemViewModel]> = Variable([])
     var segmentedControlIndex: Variable<Int> = Variable(0)
     var navigationTitle: Variable<String> = Variable("Popular Movies")
     weak var delegate: MovieListViewDelegate?
+    var isLoading: Variable<Bool> = Variable(false)
     
     private var disposeBag = DisposeBag()
     private let queue = TMDBOperationQueue()
@@ -37,15 +39,29 @@ class MovieListViewModel: NSObject, ViewModelProtocol {
                     self?.navigationTitle.value = "Upcoming Movies"
                     self?.requestFunction.value = self?.queue.upcomingMovies
                 }
-                if let delegate = self?.delegate {
-                    delegate.refresh {
-                        
-                    }
-                }
+                self?.refreshWithIndicator()
+        }).disposed(by: disposeBag)
+        
+        isLoading.asObservable().subscribe(onNext: { [weak self] (loading) in
+            if loading {
+                self?.mainView?.setLoadingScreen()
+            } else {
+                self?.mainView?.removeLoadingScreen()
+            }
         }).disposed(by: disposeBag)
     }
     
+    func refreshWithIndicator() {
+        isLoading.value = true
+        if let delegate = self.delegate {
+            delegate.refresh { [weak self] () in
+                self?.isLoading.value = false
+            }
+        }
+    }
+    
     func bindTo(_ view: MainView) {
+        self.mainView = view
         view.collectionView.delegate = self
         movies.asObservable().bind(to: view.collectionView.rx.items(cellIdentifier: MovieCollectionViewCell.identifier, cellType: MovieCollectionViewCell.self)) { _, item, cell in
             cell.setViewModel(item)

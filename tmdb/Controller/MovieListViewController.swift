@@ -16,7 +16,6 @@ class MovieListViewController: UIViewController, ViewCustomizable {
     typealias MainView = MovieListView
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
-    let queue = TMDBOperationQueue()
     var page = 0
     var viewModel = MovieListViewModel()
     var disposeBag = DisposeBag()
@@ -37,9 +36,9 @@ class MovieListViewController: UIViewController, ViewCustomizable {
     }
     
     func refreshWithIndicator() {
-        mainView.setLoadingScreen(navigationController: navigationController)
+        viewModel.isLoading.value = true
         self.refresh { [weak self] () in            
-            self?.mainView.removeLoadingScreen()
+            self?.viewModel.isLoading.value = false
         }
     }
 
@@ -58,8 +57,11 @@ class MovieListViewController: UIViewController, ViewCustomizable {
                     }
                     return viewModel
                     }.flatMap { $0 }
-                weakSelf.viewModel.movies.value += moviesViewModel
-                nextPageCompletion()
+                
+                //DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    weakSelf.viewModel.movies.value += moviesViewModel
+                    nextPageCompletion()
+                //}
             } catch {
                 
             }
