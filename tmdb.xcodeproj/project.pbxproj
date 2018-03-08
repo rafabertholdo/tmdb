@@ -21,6 +21,8 @@
 		DA1B2996205075BA00988EBF /* BaseOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1B2995205075BA00988EBF /* BaseOperationQueue.swift */; };
 		DA1B29982050769800988EBF /* TMDBOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1B29972050769800988EBF /* TMDBOperationQueue.swift */; };
 		DA1B299B2050840000988EBF /* ViewSpinnable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1B299A2050840000988EBF /* ViewSpinnable.swift */; };
+		DA3C04F0205165E8008A332B /* DictionaryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3C04EF205165E8008A332B /* DictionaryExtension.swift */; };
+		DA3C04F220516976008A332B /* MovieListViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3C04F120516976008A332B /* MovieListViewDelegate.swift */; };
 		DAB71BC820500AA000BB2BC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB71BC720500AA000BB2BC3 /* AppDelegate.swift */; };
 		DAB71BCA20500AA000BB2BC3 /* MovieListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB71BC920500AA000BB2BC3 /* MovieListViewController.swift */; };
 		DAB71BCD20500AA000BB2BC3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAB71BCB20500AA000BB2BC3 /* Main.storyboard */; };
@@ -78,6 +80,8 @@
 		DA1B2995205075BA00988EBF /* BaseOperationQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseOperationQueue.swift; sourceTree = "<group>"; };
 		DA1B29972050769800988EBF /* TMDBOperationQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBOperationQueue.swift; sourceTree = "<group>"; };
 		DA1B299A2050840000988EBF /* ViewSpinnable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSpinnable.swift; sourceTree = "<group>"; };
+		DA3C04EF205165E8008A332B /* DictionaryExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryExtension.swift; sourceTree = "<group>"; };
+		DA3C04F120516976008A332B /* MovieListViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListViewDelegate.swift; sourceTree = "<group>"; };
 		DAB71BC420500AA000BB2BC3 /* tmdb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tmdb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAB71BC720500AA000BB2BC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAB71BC920500AA000BB2BC3 /* MovieListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListViewController.swift; sourceTree = "<group>"; };
@@ -180,6 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				DA1B298F20506F2300988EBF /* DataExtension.swift */,
+				DA3C04EF205165E8008A332B /* DictionaryExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -263,6 +268,7 @@
 				DAB71BF720500BFD00BB2BC3 /* MovieListView.swift */,
 				DAB71BF920500F1700BB2BC3 /* MovieCollectionViewCell.swift */,
 				DAB71BFE2050174800BB2BC3 /* MovieViewModel.swift */,
+				DA3C04F120516976008A332B /* MovieListViewDelegate.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -632,6 +638,8 @@
 				DA1B298D2050651A00988EBF /* TMDBProvider.swift in Sources */,
 				DA1B299220506F9D00988EBF /* TecnicalError.swift in Sources */,
 				DAB71C0220501FFC00BB2BC3 /* Identifiable.swift in Sources */,
+				DA3C04F0205165E8008A332B /* DictionaryExtension.swift in Sources */,
+				DA3C04F220516976008A332B /* MovieListViewDelegate.swift in Sources */,
 				DAB71BFD2050147D00BB2BC3 /* Movie.swift in Sources */,
 				DAB71C05205022E100BB2BC3 /* ViewCustomizable.swift in Sources */,
 				DAB71BFF2050174800BB2BC3 /* MovieViewModel.swift in Sources */,

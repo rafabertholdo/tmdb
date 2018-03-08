@@ -46,7 +46,7 @@ extension ViewSpinnable where Self: UIView {
         loadingLabel.text = "Loading..."
         loadingLabel.frame = CGRect(x: 0, y: 0, width: 140, height: 30)
         
-        spinner.activityIndicatorViewStyle = .gray
+        spinner.activityIndicatorViewStyle = .white
         spinner.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         if !view.subviews.contains(loadingView) {
             loadingView.addSubview(spinner)

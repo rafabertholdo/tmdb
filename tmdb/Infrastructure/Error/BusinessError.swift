@@ -13,4 +13,5 @@ import Foundation
 /// - couldNotParseProperty: Could not parse object starting from property
 enum BusinessError: Error {
     case couldNotParseProperty(String)
+    case couldCreateViewModel
 }

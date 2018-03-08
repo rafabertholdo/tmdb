@@ -27,7 +27,7 @@ class TMDBProvider {
         }
         static let posterBaseUrl = "https://image.tmdb.org/t/p/w500"
         static let bannerBaseUrl = "https://image.tmdb.org/t/p/original"
-        static let apiSecret = "1f54bd990f1cdfb230adb312546d765d"
+        static let apiSecret = ["api_key": "1f54bd990f1cdfb230adb312546d765d"]
         static let profileBaseUrl = "https://image.tmdb.org/t/p/w185"
         static let results = "results"
     }
@@ -39,20 +39,14 @@ class TMDBProvider {
         self.backendClient = backendClient
     }
     
-    /// Adds the API key to the request parameters
-    ///
-    /// - Parameter value: Reference to the parameter dictionary
-    func addApiSecretParameter(_ value: inout [String: Any]) {
-        value["api_key"] = Constants.apiSecret
-    }
-    
     /// Searches the most popular movies at TMDB
     ///
-    /// - Parameter completion: Closure executed at the end of the request
-    func popularMovies(completion: @escaping MovieListCallback ) {
-        var parameters: [String: Any] = [:]
-        addApiSecretParameter(&parameters)
-        backendClient.request(Constants.popularEndpoint, method: .get, parameters: parameters) { (callback) in
+    /// - Parameters:
+    ///   - parameters: request parameters
+    ///   - completion: Closure executed at the end of the request
+    func popularMovies(with parameters: [String: Any], completion: @escaping MovieListCallback ) {
+        
+        backendClient.request(Constants.popularEndpoint, method: .get, parameters: parameters.merged(with: Constants.apiSecret)) { (callback) in
             do {
                 guard let result = try callback() else {
                     throw ApiError.emptyResponse

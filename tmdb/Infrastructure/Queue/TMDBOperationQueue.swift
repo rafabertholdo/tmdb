@@ -14,13 +14,13 @@ class TMDBOperationQueue: BaseOperationQueue {
     /// the TMDB provider to get the list of the popular movies
     ///
     /// - Parameter completion: Closure executed on the main queue at the end of the request
-    func popularMovies(_ completion: @escaping MovieListCallback) {
+    func popularMovies(with parameters: [String: Any], completion: @escaping MovieListCallback) {
         addOperation {
-            TMDBProvider.instance.popularMovies { (callback) in
+            TMDBProvider.instance.popularMovies(with: parameters, completion: { (callback) in
                 OperationQueue.main.addOperation {
                     completion(callback)
                 }
-            }
+            })
         }
     }
 }
