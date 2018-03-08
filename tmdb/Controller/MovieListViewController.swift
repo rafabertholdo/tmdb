@@ -27,6 +27,7 @@ class MovieListViewController: UIViewController, ViewCustomizable {
         viewModel.bindTo(mainView)
         viewModel.segmentedControlIndex.asObservable().bind(to: segmentedControl.rx.selectedSegmentIndex).disposed(by: disposeBag)
         segmentedControl.rx.selectedSegmentIndex.bind(to: viewModel.segmentedControlIndex).disposed(by: disposeBag)
+        viewModel.navigationTitle.asObservable().bind(to: navigationItem.rx.title).disposed(by: disposeBag)
         self.mainView.delegate = self
     }
    
