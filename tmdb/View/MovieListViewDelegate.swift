@@ -8,6 +8,5 @@
 
 import Foundation
 protocol MovieListViewDelegate: class {
-    func requestNextPage(completion:@escaping () -> Void)
     func refresh(completion:@escaping () -> Void)
 }
